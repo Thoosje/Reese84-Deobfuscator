@@ -4,17 +4,17 @@
     "description": "Deobfuscator for reese84 (Incapsula).",
     "main": "./src/deobfuscator.js",
     "scripts": {
-      "start": "babel-node ./src/deobfuscator.js"
+        "start": "babel-node ./src/deobfuscator.js"
     },
     "author": "Thoosje",
     "license": "ISC",
     "dependencies": {
-      "js-beautify": "^1.14.7"
+        "js-beautify": "^1.14.7",
+        "jsdom": "^21.1.1"
     },
     "devDependencies": {
-      "@babel/core": "^7.21.0",
-      "@babel/node": "^7.20.7",
-      "@babel/preset-env": "^7.20.2"
+        "@babel/core": "^7.21.0",
+        "@babel/node": "^7.20.7",
+        "@babel/preset-env": "^7.20.2"
     }
-  }
-  
+}

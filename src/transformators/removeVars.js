@@ -9,7 +9,6 @@ const Vistor = {
         if (binding && binding.path.isVariableDeclarator()) {
             const init = binding.path.get('init');
             if (init.isIdentifier()) {
-                console.log(init.node.name)
                 path.node.name = init.node.name;
             }
         }

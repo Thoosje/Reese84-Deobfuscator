@@ -21,12 +21,15 @@ const stringDecodeNames = {
 function deobfuscate(source) {
     const ast = parser.parse(source);
 
-    let ctx = {
-        'window': {
-            'atob': ((str) => Buffer.from(str, 'base64').toString('binary'))
+    let state = {
+        ctx: {
+            window: {
+                atob: ((str) => Buffer.from(str, 'base64').toString('binary'))
+            }
         }
     } // Context to run the VM for the first decode functions (first whole node)
 
+    traverse(ast, visitors.stringDeconcealing1, null, state)
     traverse(ast, visitors.hexDigitsToDecimal)
     traverse(ast, visitors.removeVars)
     traverse(ast, visitors.removeDuplicateVars)
