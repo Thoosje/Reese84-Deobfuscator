@@ -226,9 +226,9 @@
         Uv += 1;
     }
     var SW = qZ.join("");
-    var gz = window[SW.substr(1611, 8)];
-    var p_ = new window[eu.substr(1257, 6)](IN.substr(222, 2), SW.substr(263, 1));
-    var cC = new window[eu.substr(1257, 6)](SW.substr(1012, 15), SW.substr(263, 1));
+    var gz = window["document"];
+    var p_ = new window["RegExp"]("\\s", "g");
+    var cC = new window["RegExp"]("[\\u0080-\\uFFFF]", "g");
     var LQ = [];
     var KF = vo - 1;
     var y3 = [];
@@ -245,12 +245,12 @@
         gs += 1;
     }
     var Cv = LQ.join("");
-    var jC = new window[eu.substr(1257, 6)](Cv.substr(379, 2), SW.substr(263, 1));
-    var i2 = window[SW.substr(1271, 4)][eu.substr(148, 9)];
-    var le = window[Cv.substr(86, 6)][eu.substr(393, 12)];
-    var Gw = window[IN.substr(16, 8)];
-    var qu = window[SW.substr(561, 5)][SW.substr(182, 4)];
-    var PU = new window[eu.substr(1257, 6)](Cv.substr(192, 7));
+    var jC = new window["RegExp"]("..", "g");
+    var i2 = window["JSON"]["stringify"];
+    var le = window["String"]["fromCharCode"];
+    var Gw = window["parseInt"];
+    var qu = window["Array"]["from"];
+    var PU = new window["RegExp"]("Trident");
     var bQ = new window.RegExp("[\\u007F-\\uFFFF]", "g");
 })();
 (function(_0x2f8256, _0x270942) {

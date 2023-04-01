@@ -5,7 +5,7 @@ const vm = require('node:vm');
 const { JSDOM } = require('jsdom');
 
 const Vistor = {
-    Program(path, state) {
+    Program(path) {
         const decodeNode = path.node.body[0];
 
         if (
@@ -24,18 +24,17 @@ const Vistor = {
         const vmContext = dom.getInternalVMContext();
         
         // Execute all the string modifications.
+    
         vm.runInContext(
             generate(decodeNodeProgram).code,
             vmContext
         );
         
-        // Access decoded strings
-        const result = vm.runInContext(
-            'xM.substr(468, 9)',
+        const state = {
             vmContext
-        );
+        };
 
-        console.log(result)
+        path.traverse(DecodeVistor, state)
     },
 }
 
@@ -51,6 +50,27 @@ const InnerVisitor = {
             path.node.left.object.name === 'window'
         ) path.remove()
     }
-}
+};
+
+const DecodeVistor = {
+    CallExpression(path, state) {
+        const { node } = path;
+
+        if ( !node.callee ||
+            !t.isMemberExpression(node.callee) ||
+            !node.callee.property ||
+            !t.isIdentifier(node.callee.property) ||
+            node.callee.property.name !== 'substr' ||
+            node.arguments.length !== 2
+        ) return;
+
+        const result = vm.runInContext(
+            generate(node).code,
+            state.vmContext
+        );
+
+        path.replaceWith(t.valueToNode(result))
+    }
+};
 
 export default Vistor;
