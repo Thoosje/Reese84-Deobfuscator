@@ -1,6 +1,8 @@
 const t = require("@babel/types");
+const parser = require("@babel/parser");
+const traverse = require("@babel/traverse").default;
 const generate = require("@babel/generator").default;
-const fs = require('fs');
+
 const vm = require('node:vm');
 const { JSDOM } = require('jsdom');
 
@@ -17,30 +19,31 @@ const Vistor = {
         const decodeNodeProgram = t.Program(decodeNode.expression.callee.body.body);
 
         // Go inside of thhe first node and remove all the functions
-        path.traverse(InnerVisitor);
+        const vmAST = parser.parse(generate(decodeNodeProgram).code); // Not sure if this is the best way to split the AST so that the origal script does not get affected
+        traverse(vmAST, InnerVisitor);
 
         // Execute the function to access decoded strings later
         const dom = new JSDOM('<!DOCTYPE html>', { runScripts: 'dangerously' });
         const vmContext = dom.getInternalVMContext();
         
         // Execute all the string modifications.
-    
         vm.runInContext(
-            generate(decodeNodeProgram).code,
+            generate(vmAST).code,
             vmContext
         );
         
-        const state = {
-            vmContext
-        };
-
+        // Replace all the encoded strings
+        const state = { vmContext };
         path.traverse(DecodeVistor, state)
     },
 }
 
+
+// Removes functions so that the first node can be ran
+// inside a VM
 const InnerVisitor = {
     FunctionDeclaration(path) {
-        path.remove() // Check this so that output still has the funcions
+        path.remove() // Temporarly remove somehow for 
     },
     AssignmentExpression(path) {
         if (
