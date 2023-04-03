@@ -10,22 +10,21 @@ const {
 
 const visitors = require('./transformators/index')
 
-const stringDecodeNames = {
-    main: {
-        wordArray: 'a1_0x28ab', // The function that returns the word array
-        decodeFunc: 'a1_0xef36'
-    }
-};
 
 /* Deobfuscate */
 function deobfuscate(source) {
     const ast = parser.parse(source);
 
-    traverse(ast, visitors.stringDeconcealing1)
     traverse(ast, visitors.hexDigitsToDecimal)
+
+    traverse(ast, visitors.stringDeconcealing1)
+
     traverse(ast, visitors.removeVars)
     traverse(ast, visitors.removeDuplicateVars)
-    // traverse(ast, visitors.removeConstants) // Not sure if this is really useful
+
+    traverse(ast, visitors.stringDeconcealing2)
+
+    traverse(ast, visitors.concatStrings)
 
     /* Display code */
     let deobfCode = generate(ast, {
