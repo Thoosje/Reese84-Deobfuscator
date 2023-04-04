@@ -6,7 +6,7 @@ const generate = require("@babel/generator").default;
 const vm = require('node:vm');
 const { JSDOM } = require('jsdom');
 
-const Vistor = {
+const Visitor = {
     Program(path) {
         const decodeNode = path.node.body[0];
 
@@ -34,7 +34,7 @@ const Vistor = {
         
         // Replace all the encoded strings
         const state = { vmContext };
-        path.traverse(DecodeVistor, state)
+        path.traverse(DecodeVisitor, state)
     },
 }
 
@@ -55,7 +55,7 @@ const InnerVisitor = {
     }
 };
 
-const DecodeVistor = {
+const DecodeVisitor = {
     CallExpression(path, state) {
         const { node } = path;
 
@@ -76,4 +76,4 @@ const DecodeVistor = {
     }
 };
 
-export default Vistor;
+export default Visitor;

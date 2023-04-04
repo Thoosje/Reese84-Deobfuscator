@@ -10,11 +10,13 @@
     "license": "ISC",
     "dependencies": {
         "js-beautify": "^1.14.7",
-        "jsdom": "^21.1.1"
+        "jsdom": "^21.1.1",
+        "whatwg-fetch": "^3.6.2"
     },
     "devDependencies": {
         "@babel/core": "^7.21.0",
         "@babel/node": "^7.20.7",
-        "@babel/preset-env": "^7.20.2"
+        "@babel/preset-env": "^7.20.2",
+        "canvas": "^2.11.2"
     }
 }

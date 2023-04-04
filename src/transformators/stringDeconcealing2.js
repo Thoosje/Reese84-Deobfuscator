@@ -6,12 +6,12 @@ const generate = require("@babel/generator").default;
 const vm = require('node:vm');
 const { JSDOM } = require('jsdom');
 
-const Vistor = {
+const Visitor = {
     Program(path) {
         const vmAST = parser.parse(generate(path.node).code);
         
         const state = { decoderName: undefined, vmContext: undefined };
-        traverse(vmAST, RemoveFunctionsVistor, null, state)
+        traverse(vmAST, RemoveFunctionsVisitor, null, state)
         
         if (state === undefined) throw Error('Failed to find decoder function name.')
 
@@ -27,12 +27,12 @@ const Vistor = {
             vmContext
         );
 
-        path.traverse(FindDecodersVistor, state)
+        path.traverse(FindDecodersVisitor, state)
     }
 }
 
 // Clean the code to run into the VM
-const RemoveFunctionsVistor = {
+const RemoveFunctionsVisitor = {
     ExpressionStatement (path) {
         const { node } = path;
 
@@ -61,7 +61,7 @@ const RemoveFunctionsVistor = {
     }
 }
 
-const FindDecodersVistor = {
+const FindDecodersVisitor = {
     CallExpression (path, state) {
         const { node } = path;
 
@@ -82,4 +82,4 @@ const FindDecodersVistor = {
     }
 }
 
-export default Vistor;
+export default Visitor;

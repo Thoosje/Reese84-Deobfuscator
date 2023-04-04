@@ -19,12 +19,12 @@ function deobfuscate(source) {
 
     traverse(ast, visitors.stringDeconcealing1)
 
-    traverse(ast, visitors.removeVars)
+    traverse(ast, visitors.removeProxyVars)
     traverse(ast, visitors.removeDuplicateVars)
 
     traverse(ast, visitors.stringDeconcealing2)
 
-    traverse(ast, visitors.concatStrings)
+    //traverse(ast, visitors.concatStrings)
 
     /* Display code */
     let deobfCode = generate(ast, {
