@@ -24,7 +24,7 @@ function deobfuscate(source) {
 
     traverse(ast, visitors.stringDeconcealing2)
 
-    //traverse(ast, visitors.concatStrings)
+    traverse(ast, visitors.concatStrings)
 
     /* Display code */
     let deobfCode = generate(ast, {
