@@ -44,7 +44,7 @@ function runInterrogator(vmContext) {
 
     const reeseReturnSuccess = (data) => {
         console.log(JSON.stringify(data))
-        console.log('Data above is payload.')
+        //console.log('Data above is payload.')
     }
 
     const interrogatorInstance = vm.runInContext(
