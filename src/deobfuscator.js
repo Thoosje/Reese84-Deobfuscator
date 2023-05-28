@@ -16,15 +16,11 @@ function deobfuscate(source) {
     const ast = parser.parse(source);
 
     traverse(ast, visitors.hexDigitsToDecimal)
-
-    //traverse(ast, visitors.stringDeconcealing1)
-
+    traverse(ast, visitors.stringDeconcealing1)
     traverse(ast, visitors.removeProxyVars)
     traverse(ast, visitors.removeDuplicateVars)
-
-    //traverse(ast, visitors.stringDeconcealing2)
+    traverse(ast, visitors.stringDeconcealing2)
     traverse(ast, visitors.replaceConstants)
-
     traverse(ast, visitors.removeDeadVars)
     traverse(ast, visitors.concatStrings)
 
