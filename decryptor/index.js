@@ -6,6 +6,8 @@ const loadPayload = (path) => {
     );
 }
 
+// This does not work on every file since encryption is changed dynamically
+
 // Om function -> generate random pseudo numbers
 // cr is a known value from the payload
 function PseudoNumbers(secretNumber, cr) {
@@ -23,14 +25,14 @@ function PseudoNumbers(secretNumber, cr) {
 };
 
 // PS
-const calculateSecretArray = (cr) => {
+const calculateSecretArray = (secretNumber, cr) => {
     return PseudoNumbers(
-        1740574759,
+        secretNumber,
         cr
     )
 };
 
-const decryptPayload = (payload) => {
+const decryptPayload = (payload, secretNumber) => {
     const {
         p,
         st,
@@ -51,7 +53,7 @@ const decryptPayload = (payload) => {
     };
 
     // Generate the psuedo array
-    let pseudoFunc = calculateSecretArray(cr),
+    let pseudoFunc = calculateSecretArray(cr, secretNumber),
         secretArray = [],
         secretLength = 0;
 
@@ -67,9 +69,9 @@ const decryptPayload = (payload) => {
         secretPseudo = secretArray[29] % 7 + 1;
 
     while (counter < byteLength) {
-        let shifted_pd = ((byteArray[counter] & 0xFF) << (8 - secretPseudo)) & 0xFF;
-        let temp = (byteArray[counter] >> secretPseudo) & 0xFF;
-        let originalValue = (shifted_pd | temp) & 0xFF;
+        let shifted_pd = ((byteArray[counter] & 255) << (8 - secretPseudo)) & 255;
+        let temp = (byteArray[counter] >> secretPseudo) & 255;
+        let originalValue = (shifted_pd | temp) & 255;
 
         pd.push(originalValue)
         counter += 1
@@ -87,6 +89,9 @@ const decryptPayload = (payload) => {
 };
 
 const data = loadPayload('./payload.json')
-const result = decryptPayload(data);
+const result = decryptPayload(
+    data,
+    1740574759
+);
 
 console.log(result)
